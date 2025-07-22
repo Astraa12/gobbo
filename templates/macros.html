@@ -1,0 +1,39 @@
+{% macro monster_card(monster) %}
+<div class="monster-card">
+    <h2>{{ monster.name }}</h2>
+
+    <form method="POST" action="{{ url_for('update_monster') }}">
+        <input type="hidden" name="monster_id" value="{{ monster.monsterId }}">
+
+        <label for="armor">Armor:</label>
+        <input type="number" step="5" name="armor" value="{{ monster.armor }}" min="0">
+
+        <label for="hp">HP:</label>
+        <input type="number" step="5" name="hp" value="{{ monster.hp }}" min="0">
+
+        <button type="submit">Save</button>
+    </form>
+
+    <form method="POST" action="{{ url_for('delete_monster') }}">
+        <input type="hidden" name="monster_id" value="{{ monster.monsterId }}">
+        <button type="submit">Delete</button>
+    </form>
+</div>
+{% endmacro %}
+
+{% macro monster_card_interactive(monster) %}
+<div class="monster-card">
+    <h2>Name: {{ monster.name }}</h2>
+
+    <label for="armor">Armor:</label>
+    <input type="number" step="5" name="armor" value="{{ monster.armor }}" min="0">
+
+    <label for="hp">HP:</label>
+    <input type="number" step="5" name="hp" value="{{ monster.hp }}" min="0">
+
+    <form method="POST" action="/remove">
+        <input type="hidden" name="monster_to_remove" value="{{ monster.name }}">
+        <button type="submit">Remove</button>
+    </form>
+</div>
+{% endmacro %}

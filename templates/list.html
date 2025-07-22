@@ -1,0 +1,10 @@
+{% extends "layout.html" %} 
+{% set page_title="List" %} 
+{% from "macros.html" import monster_card %}
+{% block content %}
+<h1>Monster List!</h1>
+{% for monster in monsters %}
+    {{ monster_card(monster) }}
+{% endfor %}
+
+{% endblock %}

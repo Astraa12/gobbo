@@ -1,0 +1,38 @@
+{% extends "layout.html" %} 
+{% set page_title="Tracker" %} 
+{% from "macros.html" import monster_card_interactive %}
+{% block content %}
+<h1>Monster Tracker!</h1>
+<form method="POST">
+    <label for="active-monsters">Choose a monster</label>
+    <select name="active-monsters">
+        <option>--Select an option--</option>
+    {% for monster in monsters %}
+        <option value="{{ monster.name }}">
+            {{monster.name}}
+        </option>
+    {% endfor %}
+    </select>
+    <input type="submit" value="Submit">
+</form>
+{% if selected_monsters %}
+    {# Count how many of each monster were selected #}
+    {% set monster_counts = {} %}
+    {% for name in selected_monsters %}
+        {% if name in monster_counts %}
+            {% set _ = monster_counts.__setitem__(name, monster_counts[name] + 1) %}
+        {% else %}
+            {% set _ = monster_counts.__setitem__(name, 1) %}
+        {% endif %}
+    {% endfor %}
+
+    {# Now render each monster's card the right number of times #}
+    {% for monster in monsters %}
+        {% if monster.name in monster_counts %}
+            {% for _ in range(monster_counts[monster.name]) %}
+                {{ monster_card_interactive(monster) }}
+            {% endfor %}
+        {% endif %}
+    {% endfor %}
+{% endif %}
+{% endblock %}
